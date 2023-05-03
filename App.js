@@ -4,7 +4,9 @@ import { StripeProvider } from '@stripe/stripe-react-native';
 
 export default function App() {
   return (
-    <StripeProvider>
+    <StripeProvider
+      publishableKey={process.env.STRIPE_PUBLISHABLE_KEY}
+    >
       <StripeApp />
     </StripeProvider>
   );
