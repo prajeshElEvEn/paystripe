@@ -1,7 +1,7 @@
 server/node_modules/
+server/.env
 node_modules/
 .expo/
-.env
 dist/
 npm-debug.*
 *.jks
