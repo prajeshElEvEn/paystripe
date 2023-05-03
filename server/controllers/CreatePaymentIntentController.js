@@ -11,7 +11,7 @@ const stripe = Stripe(
 // @desc    Create a new payment intent
 // @route   POST /create-payment-intent
 // @access  Public
-const createPaymentIntent = asyncHandler(async (req, res) => {
+const createPayment = asyncHandler(async (req, res) => {
     try {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: 1099,
@@ -21,7 +21,7 @@ const createPaymentIntent = asyncHandler(async (req, res) => {
 
         const clientSecret = paymentIntent.client_secret
 
-        res.json({
+        res.status(200).json({
             clientSecret: clientSecret
         })
 
@@ -33,4 +33,4 @@ const createPaymentIntent = asyncHandler(async (req, res) => {
     }
 })
 
-export { createPaymentIntent }
+export { createPayment }

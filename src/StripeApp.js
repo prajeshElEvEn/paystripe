@@ -16,6 +16,10 @@ const StripeApp = () => {
             }
         }
         const response = await axios.post(`${process.env.API_URL}/create-payment-intent`, config)
+
+        const { clientSecret, error } = await response.data
+
+        return { clientSecret, error }
     }
 
     const handlePay = async () => {
@@ -28,6 +32,29 @@ const StripeApp = () => {
         const billingDetails = {
             email: email,
         }
+
+        try {
+            const { clientSecret, error } = await fetchPaymentIntentClientSecret()
+            if (error) {
+                Alert.alert('Error', error)
+                console.log(error)
+                return
+            } else {
+                const { paymentIntent, error } = await confirmPayment(clientSecret, {
+                    type: 'Card',
+                    billingDetails: billingDetails,
+                })
+                if (error) {
+                    Alert.alert('Error', error)
+                    console.log(error)
+                } else if (paymentIntent) {
+                    Alert.alert('Success', 'Payment Successfull')
+                    console.log(paymentIntent)
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -36,7 +63,7 @@ const StripeApp = () => {
                 autoCapitalize='none'
                 placeholder="Email ID"
                 keyboardType='email-address'
-                onChangeText={(value) => setEmail(value.nativeEvent.text)}
+                onChangeText={(value) => setEmail(value)}
                 style={styles.input}
             />
             <CardField
