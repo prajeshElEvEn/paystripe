@@ -15,7 +15,7 @@ const StripeApp = () => {
                 'Content-Type': 'application/json'
             }
         }
-        const response = await axios.post(`${process.env.API_URL}/create-payment-intent`, config)
+        const response = await axios.post(`http://localhost:5000/create-payment-intent`, config)
 
         const { clientSecret, error } = await response.data
 
